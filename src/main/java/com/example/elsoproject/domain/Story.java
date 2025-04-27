@@ -1,17 +1,42 @@
 package com.example.elsoproject.domain;
 
-import java.util.Date;
+import java.time.LocalDate;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+
+@Entity
+@Table
 public class Story {
     
-    private int id;
+    @SequenceGenerator(name = "story_sequence", sequenceName = "story_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "story_sequence")
+    @Id
+    private Long id;
     private String title;
     private String content;
-    private Date posted;
-    private String author;
+    private LocalDate posted;
+    @ManyToOne
+    private Blogger blogger;
     
-    public Story() {
+    private Story() {
     }
+
+    
+
+    public Story(String title, String content, LocalDate posted, Blogger blogger) {
+        this.title = title;
+        this.content = content;
+        this.posted = posted;
+        this.blogger = blogger;
+    }
+
+
 
     public String getTitle() {
         return title;
@@ -29,32 +54,27 @@ public class Story {
         this.content = content;
     }
 
-    public Date getPosted() {
+    public LocalDate getPosted() {
         return posted;
     }
 
-    public void setPosted(Date posted) {
+    public void setPosted(LocalDate posted) {
         this.posted = posted;
     }
 
-    public String getAuthor() {
-        return author;
+    public Blogger getBlogger() {
+        return blogger;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setBlogger(Blogger blogger) {
+        this.blogger = blogger;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return "Story [title=" + title + "]";
     }
 }
